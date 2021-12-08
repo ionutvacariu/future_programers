@@ -17,7 +17,29 @@ public class Agenda {
     Before adding the person in agenda, check that the number and name does not exists
      */
     public void addNumberInAgenda(Person p) {
+        if (isPersonPopulated(p)) {
+            if (alreadyExists(p)) {
+                System.out.println("Deja exista");
+            } else {
+                this.agendContent.add(p);
+            }
 
+        }
+    }
+
+    private boolean isPersonPopulated(Person p) {
+        return p.getName() != null && p.getPhoneNumber() != null;
+    }
+
+    private boolean alreadyExists(Person p) {
+        boolean found = false;
+        for (int i = 0; i < agendContent.size(); i++) {
+            if (p.getName().equals(agendContent.get(i).getName()) ||
+                    p.getPhoneNumber().equals(agendContent.get(i).getPhoneNumber())) {
+                found = true;
+            }
+        }
+        return found;
     }
 
     /*
@@ -28,15 +50,20 @@ public class Agenda {
         2. p has phone number
 
      */
-    public void removeNumberFromAgenda(Person p) {
+    public void removePersonFromAgenda(Person p) {
 
     }
 
-    public void updatePhoneNumberInAgenda(Person p) {
+    /*
+    Those 2 parameters represents:
+        phoneNumber -- phone number of the person to whom we want to update the name
+        name -- name that we want to use to update the name of the
+     */
+    public void updatePhoneNumberInAgenda(String phoneNumeber, String name) {
 
     }
 
-    public void updateNameOfPersonFromAgenda(Person p) {
+    public void updateNameOfPersonFromAgenda(String phoneNumeber, String nameToUpdate) {
 
     }
 
@@ -47,4 +74,11 @@ public class Agenda {
         return null;
     }
 
+    public ArrayList<Person> getAgendContent() {
+        return this.agendContent;
+    }
+
+    public boolean b(){
+        return true;
+    }
 }
