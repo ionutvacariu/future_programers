@@ -71,6 +71,14 @@ public class Agenda {
     Return a NEW array list, that contains the agenda sorted by name
      */
     public ArrayList<Person> getAgendaSortedByName() {
+
+//        Collections.sort(this.agendContent, new Comparator<Person>() {
+//            @Override
+//            public int compare(Person o1, Person o2) {
+//                return o1.getPhoneNumber().compareTo(o2.getPhoneNumber());
+//            }
+//        });
+
         return null;
     }
 
