@@ -32,4 +32,15 @@ public class Book {
     public String getGender() {
         return gender;
     }
+
+    boolean egal(Book book) {
+        // this o sa fie obj care apeleaza metoda  -- bookFromRaft
+        // book <--> referinta primita ca parametru  -- bookParameter
+        if (this.author.equals(book.author) && this.name.equals(book.name)
+                && this.isbn == book.isbn && this.gender.equals(book.gender)) {
+            return true;
+        }
+        return false;
+    }
+
 }

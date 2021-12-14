@@ -3,25 +3,73 @@ package biblioteca;
 import java.util.ArrayList;
 
 public class Library {
+
     private ArrayList<BookStock> raft = new ArrayList<>();
 
     /*
-    add a book in library
+    add a bookParameter in library
      */
-    void addBook(Book book) {
+    void addBook(Book bookParameter) {
         //TO DO -- add the remaining checks
-        if (book.getAuthor() != null && book.getName() != null) {
+        if (bookParameter.getAuthor() != null && bookParameter.getName() != null) {
             BookStock bookStock = new BookStock();
-            bookStock.setareBook(book);
+            bookStock.setareBook(bookParameter);
             bookStock.setNoOfBooks(1);
-            raft.add(bookStock);
+
+            //boolean b = false;
+            int i = 0;
+            for (; i < raft.size(); i++) {
+                Book bookFromRaft = raft.get(i).getBook();
+                if (bookFromRaft.egal(bookParameter)) {
+                    break;
+                }
+            }
+
+            if (i < raft.size()) {
+                raft.get(i).setNoOfBooks(raft.get(i).getNoOfBooks() + 1);
+            } else {
+                raft.add(bookStock);
+            }
         }
     }
 
-    void addBook(Book book, int no) {
-        BookStock bookStock = new BookStock();
-        bookStock.setareBook(book);
-        bookStock.setNoOfBooks(no);
-        raft.add(bookStock);
+    void borrow(Book bookToBorrow) {
+        int i = 0;
+        for (; i < raft.size(); i++) {
+            if (bookToBorrow.egal(raft.get(i).getBook())) {
+                final BookStock bookStockFromRaft = raft.get(i);
+                int noOfBooks = bookStockFromRaft.getNoOfBooks();
+                if (noOfBooks > 0) {
+                    noOfBooks = noOfBooks - 1;
+                    bookStockFromRaft.setNoOfBooks(noOfBooks);
+                } else {
+                    System.out.println("Nu mai este pe stoc, incearca mai tarziu !");
+                }
+                break;
+            }
+        }
+
+        if (i == raft.size()) {
+            System.out.println("doesn't exists");
+        }
     }
+
+    void returnBook(Book diBuc) {
+        int i = 0;
+        boolean gasit = false;
+        for (; i < raft.size(); i++) {
+            if (raft.get(i).getBook().egal(diBuc)) {
+                int noOfBooks = raft.get(i).getNoOfBooks();
+                noOfBooks++;
+                raft.get(i).setNoOfBooks(noOfBooks);
+                gasit = true;
+                break;
+            }
+        }
+
+        if(!gasit){
+            System.out.println("Cartea nu'i a me!");
+        }
+    }
+
 }
