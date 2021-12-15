@@ -27,44 +27,88 @@ public class Main {
 
         Scanner key = new Scanner(System.in);
         while (true) {
-            final String next = key.next();
+            final String next = key.nextLine();
             if (next.equals("AD")) {
-                System.out.println("Esti admin");
-
-                System.out.println("Adauga carte ? ");
-                while (true) {
-                    final String inputAdmin = key.next();
-                    if (inputAdmin.equals("YES")) {
-                        System.out.println("Introdu date carte");
-                        System.out.println("Introdu autor");
-                        final String autor = key.next();
-                        System.out.println("Introdu titlu");
-                        final String titlu = key.next();
-                        //  TODO -- completati cu citirea...
-
-                        lib.addBook(new Book(autor, titlu, 1, "GEN"));
-
-                        //TODO afisare carte introdusa
-                    }else {
-                        break;
-                    }
-                    System.out.println("Mai introduci ?");
-                }
-                //TODO -- listati toate cartile introduse
-                // for .. rafturile din biblioteca --- > sout ( raft.get(i).getbookStock.getName + raf...get + raf .. )
+                meniuAdministrator(lib, key);
                 break;
             } else if (next.equals("UT")) {
+                //TODO -- extrageti meniul pentru UT intr-o metoda dedicata
+
+                //TODO -- uitati-va peste "testeleNoastre()"  ca sa intelegeti ce naibe e acolo
+                final Library library = testeleNoastre();
                 System.out.println("Esti utilizator");
+
+                System.out.println("Meniu utilizator");
+                System.out.println("Alegeti actiunea ! (1 / 2)");
+                System.out.println("1 - Imprumut");
+                System.out.println("2 - Retur");
+                System.out.println("3 - Afisare carti disponibile");
+
+                while (true) {
+                    final String comanda = key.nextLine();
+                    if (comanda.equals("1")) {
+                        //TODO  -- adaugare functionalitate imprumut carte
+                        System.out.println("Imprumutati o carte");
+                    } else if (comanda.equals("2")) {
+                        //TODO  -- adaugare functionalitate retur carte
+                        System.out.println("Ati ales 2, returnati o carte");
+                    } else if (comanda.equals("4")) {
+                        break;
+                    } else {
+                        System.out.println("comanda gresita -- reintroduceti");
+                        System.out.println("introduceti 4 - pentru a iesi");
+                    }
+                    System.out.println("Mai doriti sa introduceti o noua comanda?");
+                    final String comanda_reintroduusa = key.nextLine();
+                    if (!"YES".equals(comanda_reintroduusa)) {
+                        break;
+                    } else {
+                        System.out.println("1 - Imprumut");
+                        System.out.println("2 - Retur");
+                    }
+                }
+
                 break;
             } else {
                 System.out.println("Tip inexistent -- reintroduceti (AD/UT)");
             }
         }
 
-        //testeleNoastre();
     }
 
-    private static void testeleNoastre() {
+
+    private static void meniuAdministrator(Library lib, Scanner key) {
+        System.out.println("Esti admin");
+        System.out.println("Adauga carte ? ");
+        while (true) {
+            final String inputAdmin = key.nextLine();
+            if (inputAdmin.equals("YES")) {
+                System.out.println("Introdu date carte");
+                System.out.println("Introdu autor");
+                final String autor = key.nextLine();
+                System.out.println("Introdu titlu");
+                final String titlu = key.nextLine();
+                System.out.println("Introduceti isbn");
+                final String isbn = key.nextLine();
+                System.out.println("intr gender");
+                final String genred = key.nextLine();
+                Book bookParameter = new Book(autor, titlu, Integer.valueOf(isbn), genred);
+                lib.addBook(bookParameter);
+                //System.out.println(lib.getRaft().get(lib.getRaft().size() - 1).getBook());
+                System.out.println(bookParameter);
+            } else {
+                break;
+            }
+            System.out.println("Mai introduci ?");
+        }
+        System.out.println("cartile introduse sunt: ");
+        for (int i = 0; i < lib.getRaft().size(); i++) {
+            System.out.println(lib.getRaft().get(i).getBook());
+        }
+    }
+
+
+    private static Library testeleNoastre() {
         Library centrala = new Library();
         Library periferica = new Library();
         Book book = new Book("Tudor Arghezi", "Prima carte a lui Arghezi", 1, "Drama");
@@ -88,6 +132,8 @@ public class Main {
         periferica.borrow(book1);
         periferica.returnBook(book_2);
         periferica.returnBook(book1);
+
+        return periferica;
     }
 
     private static void extracted(Library centrala, Library periferica) {

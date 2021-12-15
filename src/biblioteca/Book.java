@@ -43,4 +43,13 @@ public class Book {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "author='" + author + '\'' +
+                ", name='" + name + '\'' +
+                ", isbn=" + isbn +
+                ", gender='" + gender + '\'' +
+                '}';
+    }
 }

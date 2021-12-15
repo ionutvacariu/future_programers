@@ -72,4 +72,8 @@ public class Library {
         }
     }
 
+    public ArrayList<BookStock> getRaft() {
+        return raft;
+    }
+
 }
