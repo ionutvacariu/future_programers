@@ -1,13 +1,15 @@
 package biblioteca;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
 
     private String author;
     private String name;
     private int isbn;
     private String gender;
 
-    Book(String p1, String name, int isbn, String gender) {
+    public Book(String p1, String name, int isbn, String gender) {
         author = p1;
         this.name = name;
         this.isbn = isbn;
@@ -45,11 +47,10 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "author='" + author + '\'' +
-                ", name='" + name + '\'' +
-                ", isbn=" + isbn +
-                ", gender='" + gender + '\'' +
-                '}';
+        return "Book " + " autor: " + this.author + " nume " + this.name + " isbn: " + this.isbn + " gen:  " + this.gender;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

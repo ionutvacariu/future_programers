@@ -1,6 +1,8 @@
 package biblioteca;
 
-public class BookStock {
+import java.io.Serializable;
+
+public class BookStock implements Serializable {
 
     private int noOfBooks = 1;
     private Book book;

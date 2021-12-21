@@ -1,5 +1,6 @@
 package biblioteca;
 
+import java.io.*;
 import java.util.Scanner;
 
 /*      1. O biblioteca care sa aiba o lista de carti
@@ -18,7 +19,7 @@ import java.util.Scanner;
         4. Retur carte
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         System.out.println("Meniu");
         System.out.println("Introdu tip utilizator (AD/UT)");
@@ -30,44 +31,10 @@ public class Main {
             final String next = key.nextLine();
             if (next.equals("AD")) {
                 meniuAdministrator(lib, key);
+                saveLibraryToFile(lib);
                 break;
             } else if (next.equals("UT")) {
-                //TODO -- extrageti meniul pentru UT intr-o metoda dedicata
-
-                //TODO -- uitati-va peste "testeleNoastre()"  ca sa intelegeti ce naibe e acolo
-                final Library library = testeleNoastre();
-                System.out.println("Esti utilizator");
-
-                System.out.println("Meniu utilizator");
-                System.out.println("Alegeti actiunea ! (1 / 2)");
-                System.out.println("1 - Imprumut");
-                System.out.println("2 - Retur");
-                System.out.println("3 - Afisare carti disponibile");
-
-                while (true) {
-                    final String comanda = key.nextLine();
-                    if (comanda.equals("1")) {
-                        //TODO  -- adaugare functionalitate imprumut carte
-                        System.out.println("Imprumutati o carte");
-                    } else if (comanda.equals("2")) {
-                        //TODO  -- adaugare functionalitate retur carte
-                        System.out.println("Ati ales 2, returnati o carte");
-                    } else if (comanda.equals("4")) {
-                        break;
-                    } else {
-                        System.out.println("comanda gresita -- reintroduceti");
-                        System.out.println("introduceti 4 - pentru a iesi");
-                    }
-                    System.out.println("Mai doriti sa introduceti o noua comanda?");
-                    final String comanda_reintroduusa = key.nextLine();
-                    if (!"YES".equals(comanda_reintroduusa)) {
-                        break;
-                    } else {
-                        System.out.println("1 - Imprumut");
-                        System.out.println("2 - Retur");
-                    }
-                }
-
+                meniuUtilizator(key);
                 break;
             } else {
                 System.out.println("Tip inexistent -- reintroduceti (AD/UT)");
@@ -77,24 +44,81 @@ public class Main {
     }
 
 
+    private static void meniuUtilizator(Scanner key) throws Exception {
+
+
+        FileInputStream fileInputStream
+                = new FileInputStream("yourfile2.txt");
+        ObjectInputStream objectInputStream
+                = new ObjectInputStream(fileInputStream);
+        Library library = (Library) objectInputStream.readObject();
+        objectInputStream.close();
+
+        System.out.println("Esti utilizator");
+
+        System.out.println("Meniu utilizator");
+        System.out.println("Alegeti actiunea ! (1 / 2)");
+        System.out.println("1 - Imprumut");
+        System.out.println("2 - Retur");
+        System.out.println("3 - Afisare carti disponibile");
+
+        while (true) {
+            final String comanda = key.nextLine();
+            if (comanda.equals("1")) {
+                System.out.println("Imprumutati o carte");
+                final Book bookToBorrow = citireCarteDeLaTastatura(key);
+                final boolean borrow = library.borrow(bookToBorrow);
+                if (borrow) {
+                    System.out.println("ai imprumutat " + bookToBorrow.toString());
+                }
+            } else if (comanda.equals("2")) {
+                //TODO  -- adaugare functionalitate retur carte
+                System.out.println("Ati ales 2, returnati o carte");
+            } else if (comanda.equals("4")) {
+                //serializeaza lirary (path catre fisier)
+                saveLibraryToFile(library);
+                break;
+            } else if (comanda.equals("3")) {
+                for (int i = 0; i < library.getRaft().size(); i++) {
+                    System.out.print(library.getRaft().get(i).getBook());
+                    System.out.println(" este in " + library.getRaft().get(i).getNoOfBooks()+ " exemplare.");
+                }
+            } else {
+                System.out.println("comanda gresita -- reintroduceti");
+                System.out.println("introduceti 4 - pentru a iesi");
+            }
+            System.out.println("Mai doriti sa introduceti o noua comanda?");
+            final String comanda_reintroduusa = key.nextLine();
+            if (!"YES".equals(comanda_reintroduusa)) {
+                saveLibraryToFile(library);
+                break;
+            } else {
+                System.out.println("1 - Imprumut");
+                System.out.println("2 - Retur");
+            }
+        }
+
+    }
+
+    private static void saveLibraryToFile(Library library) throws IOException {
+        System.out.println("SALVAM LIBRARIA");
+        FileOutputStream fileOutputStream
+                = new FileOutputStream("yourfile2.txt");
+        ObjectOutputStream objectOutputStream
+                = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(library);
+        objectOutputStream.flush();
+        objectOutputStream.close();
+    }
+
     private static void meniuAdministrator(Library lib, Scanner key) {
         System.out.println("Esti admin");
         System.out.println("Adauga carte ? ");
         while (true) {
             final String inputAdmin = key.nextLine();
             if (inputAdmin.equals("YES")) {
-                System.out.println("Introdu date carte");
-                System.out.println("Introdu autor");
-                final String autor = key.nextLine();
-                System.out.println("Introdu titlu");
-                final String titlu = key.nextLine();
-                System.out.println("Introduceti isbn");
-                final String isbn = key.nextLine();
-                System.out.println("intr gender");
-                final String genred = key.nextLine();
-                Book bookParameter = new Book(autor, titlu, Integer.valueOf(isbn), genred);
+                Book bookParameter = citireCarteDeLaTastatura(key);
                 lib.addBook(bookParameter);
-                //System.out.println(lib.getRaft().get(lib.getRaft().size() - 1).getBook());
                 System.out.println(bookParameter);
             } else {
                 break;
@@ -107,33 +131,32 @@ public class Main {
         }
     }
 
+    private static Book citireCarteDeLaTastatura(Scanner key) {
+        System.out.println("Introdu date carte");
+        System.out.println("Introdu autor");
+        final String autor = key.nextLine();
+        System.out.println("Introdu titlu");
+        final String titlu = key.nextLine();
+        System.out.println("Introduceti isbn");
+        final String isbn = key.nextLine();
+        System.out.println("intr gender");
+        final String genred = key.nextLine();
+        return new Book(autor, titlu, Integer.valueOf(isbn), genred);
+    }
 
-    private static Library testeleNoastre() {
-        Library centrala = new Library();
+
+    private static Library populateLibrary() {
+
         Library periferica = new Library();
         Book book = new Book("Tudor Arghezi", "Prima carte a lui Arghezi", 1, "Drama");
         Book book_2 = new Book("Eminem", "Prima carte a lui Eminem", 2, "Rap");
-
-        centrala.addBook(book_2);
+        Book book_3 = new Book("Eminescu", "Somnoroase pasarel", 2, "Rap");
         periferica.addBook(book);
         periferica.addBook(book_2);
-        periferica.addBook(book_2);
-        Book book_3 = new Book("Eminescu", "Somnoroase pasarel", 2, "Rap");
         periferica.addBook(book_3);
 
-
-        periferica.borrow(book_2);
-        periferica.borrow(book_2);
-        periferica.borrow(book_2);
-        periferica.borrow(book_2);
-        periferica.borrow(book_2);
-
-        final Book book1 = new Book("ASB", "ASD", 2, "ASDD");
-        periferica.borrow(book1);
-        periferica.returnBook(book_2);
-        periferica.returnBook(book1);
-
         return periferica;
+
     }
 
     private static void extracted(Library centrala, Library periferica) {
@@ -161,4 +184,11 @@ public class Main {
 
         centrala.addBook(book_2);
     }
+
+
+    static class MyClass {
+        Library l;
+        Book b;
+    }
+
 }

@@ -1,8 +1,9 @@
 package biblioteca;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Library {
+public class Library  implements Serializable {
 
     private ArrayList<BookStock> raft = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class Library {
         }
     }
 
-    void borrow(Book bookToBorrow) {
+    boolean borrow(Book bookToBorrow) {
         int i = 0;
         for (; i < raft.size(); i++) {
             if (bookToBorrow.egal(raft.get(i).getBook())) {
@@ -44,6 +45,7 @@ public class Library {
                     bookStockFromRaft.setNoOfBooks(noOfBooks);
                 } else {
                     System.out.println("Nu mai este pe stoc, incearca mai tarziu !");
+                    return false;
                 }
                 break;
             }
@@ -51,6 +53,9 @@ public class Library {
 
         if (i == raft.size()) {
             System.out.println("doesn't exists");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -67,7 +72,7 @@ public class Library {
             }
         }
 
-        if(!gasit){
+        if (!gasit) {
             System.out.println("Cartea nu'i a me!");
         }
     }
