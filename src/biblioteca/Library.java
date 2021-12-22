@@ -3,7 +3,7 @@ package biblioteca;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Library  implements Serializable {
+public class Library implements Serializable {
 
     private ArrayList<BookStock> raft = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class Library  implements Serializable {
         }
     }
 
-    void returnBook(Book diBuc) {
+    boolean returnBook(Book diBuc) {
         int i = 0;
         boolean gasit = false;
         for (; i < raft.size(); i++) {
@@ -75,6 +75,8 @@ public class Library  implements Serializable {
         if (!gasit) {
             System.out.println("Cartea nu'i a me!");
         }
+
+        return gasit;
     }
 
     public ArrayList<BookStock> getRaft() {

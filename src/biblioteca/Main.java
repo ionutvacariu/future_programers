@@ -51,13 +51,14 @@ public class Main {
                 = new FileInputStream("yourfile2.txt");
         ObjectInputStream objectInputStream
                 = new ObjectInputStream(fileInputStream);
+
         Library library = (Library) objectInputStream.readObject();
         objectInputStream.close();
 
         System.out.println("Esti utilizator");
 
         System.out.println("Meniu utilizator");
-        System.out.println("Alegeti actiunea ! (1 / 2)");
+        System.out.println("Alegeti actiunea ! ");
         System.out.println("1 - Imprumut");
         System.out.println("2 - Retur");
         System.out.println("3 - Afisare carti disponibile");
@@ -72,8 +73,13 @@ public class Main {
                     System.out.println("ai imprumutat " + bookToBorrow.toString());
                 }
             } else if (comanda.equals("2")) {
-                //TODO  -- adaugare functionalitate retur carte
                 System.out.println("Ati ales 2, returnati o carte");
+                Book bookToReturn = citireCarteDeLaTastatura(key);
+                boolean gasit__altul = library.returnBook(bookToReturn);
+                if (gasit__altul) {
+                    System.out.println("Ati returnat cartea: " + bookToReturn.toString());
+                }
+
             } else if (comanda.equals("4")) {
                 //serializeaza lirary (path catre fisier)
                 saveLibraryToFile(library);
@@ -81,7 +87,7 @@ public class Main {
             } else if (comanda.equals("3")) {
                 for (int i = 0; i < library.getRaft().size(); i++) {
                     System.out.print(library.getRaft().get(i).getBook());
-                    System.out.println(" este in " + library.getRaft().get(i).getNoOfBooks()+ " exemplare.");
+                    System.out.println(" este in " + library.getRaft().get(i).getNoOfBooks() + " exemplare.");
                 }
             } else {
                 System.out.println("comanda gresita -- reintroduceti");
@@ -183,12 +189,6 @@ public class Main {
         Book book_2 = new Book("Eminem", "Prima carte a lui Eminem", 1, "Rap");
 
         centrala.addBook(book_2);
-    }
-
-
-    static class MyClass {
-        Library l;
-        Book b;
     }
 
 }
