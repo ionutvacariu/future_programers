@@ -17,3 +17,11 @@ E
 src/testing/Main.java,4/4/44c4a464b3280402688d8f134ecce051c0310c65
 H
 src/testing/Parinte.java,8/a/8af9df9e670ff8a416138c3b40c48bde2a834463
+H
+src/biblioteca/Book.java,b/2/b28e0c77f8695d9b6d504181d5bc99c6aa1ffa43
+M
+src/biblioteca/BookStock.java,f/c/fc94937bd20793e7f01b8a363f6363125752affa
+L
+src/exercices/Exercices.java,9/8/9820ac89579abd2dfabade1b6791e027b82522eb
+K
+src/biblioteca/Library.java,a/7/a7c62b180ab540b04886079342589e7ed3170c80
