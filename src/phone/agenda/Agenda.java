@@ -17,29 +17,7 @@ public class Agenda {
     Before adding the person in agenda, check that the number and name does not exists
      */
     public void addNumberInAgenda(Person p) {
-        if (isPersonPopulated(p)) {
-            if (alreadyExists(p)) {
-                System.out.println("Deja exista");
-            } else {
-                this.agendContent.add(p);
-            }
 
-        }
-    }
-
-    private boolean isPersonPopulated(Person p) {
-        return p.getName() != null && p.getPhoneNumber() != null;
-    }
-
-    private boolean alreadyExists(Person p) {
-        boolean found = false;
-        for (int i = 0; i < agendContent.size(); i++) {
-            if (p.getName().equals(agendContent.get(i).getName()) ||
-                    p.getPhoneNumber().equals(agendContent.get(i).getPhoneNumber())) {
-                found = true;
-            }
-        }
-        return found;
     }
 
     /*
@@ -72,13 +50,6 @@ public class Agenda {
      */
     public ArrayList<Person> getAgendaSortedByName() {
 
-//        Collections.sort(this.agendContent, new Comparator<Person>() {
-//            @Override
-//            public int compare(Person o1, Person o2) {
-//                return o1.getPhoneNumber().compareTo(o2.getPhoneNumber());
-//            }
-//        });
-
         return null;
     }
 
@@ -86,7 +57,4 @@ public class Agenda {
         return this.agendContent;
     }
 
-    public boolean b(){
-        return true;
-    }
 }

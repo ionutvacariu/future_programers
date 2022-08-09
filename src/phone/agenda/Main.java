@@ -26,13 +26,10 @@ public class Main {
         agendaVlad.addNumberInAgenda(p);
 
 
-
-
-
         //System.out.println(person.getName());
         System.out.println(" ===== Printing agendaIonut content =====");
 
-        for(int i = 0; i< agendaIonut.getAgendContent().size(); i++) {
+        for (int i = 0; i < agendaIonut.getAgendContent().size(); i++) {
             System.out.println(agendaIonut.getAgendContent().get(i));
             //System.out.println(agendaIonut.getAgendContent().get(i).getName());
             //System.out.println(agendaIonut.getAgendContent().get(i).getPhoneNumber());
@@ -41,7 +38,7 @@ public class Main {
         //print agendaIonut content -- maybe here you need to add a new method to have acces to agendaIonut content
         System.out.println(" ===== Removing from agendaIonut content =====");
 
-        agendaIonut.removePersonFromAgenda(new Person("Daniel","0322"));
+        agendaIonut.removePersonFromAgenda(new Person("Daniel", "0322"));
 
 
         //remove a person from agendaIonut
